@@ -3,6 +3,7 @@ import './App.css'
 import JsonFormatter from './components/JsonFormatter'
 import RegexTester from './components/RegexTester'
 import Base64Codec from './components/Base64Codec'
+import DateTimeTools from './components/DateTimeTools'
 
 function App() {
   const [activeTab, setActiveTab] = useState('json-formatter')
@@ -28,10 +29,10 @@ function App() {
           JSON 格式化器
         </button>
         <button 
-          className={`tab-button ${activeTab === 'todo' ? 'active' : ''}`}
-          onClick={() => setActiveTab('todo')}
+          className={`tab-button ${activeTab === 'datetime' ? 'active' : ''}`}
+          onClick={() => setActiveTab('datetime')}
         >
-          TODO 列表
+          日期时间工具
         </button>
         <button 
           className={`tab-button ${activeTab === 'regex' ? 'active' : ''}`}
@@ -49,7 +50,7 @@ function App() {
       
       <main className="app-content">
         {activeTab === 'json-formatter' && <JsonFormatter />}
-        {activeTab === 'todo' && <div className="placeholder">TODO 列表工具开发中...</div>}
+        {activeTab === 'datetime' && <DateTimeTools />}
         {activeTab === 'regex' && <RegexTester />}
         {activeTab === 'base64' && <Base64Codec />}
       </main>
