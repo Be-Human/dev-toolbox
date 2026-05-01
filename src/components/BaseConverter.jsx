@@ -262,7 +262,7 @@ function BaseConverter() {
               </button>
             </div>
             <div className="base-input-wrapper">
-              <span className="base-prefix">#</span>
+
               <input
                 type="text"
                 className="base-input"
@@ -307,11 +307,11 @@ function BaseConverter() {
         </div>
       </div>
 
-      {error && (
+      <div className={`base-error-wrapper ${error ? 'has-error' : ''}`}>
         <div className="base-error">
-          {error}
+          {error || ''}
         </div>
-      )}
+      </div>
 
       <div className="base-info">
         <div className="info-item">
