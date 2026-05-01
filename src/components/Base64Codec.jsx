@@ -16,10 +16,10 @@ function Base64Codec() {
 
     try {
       if (mode === 'encode') {
-        setOutput(btoa(unescape(encodeURIComponent(input))))
+        setOutput(btoa(String.fromCharCode(...new TextEncoder().encode(input))))
         setError(null)
       } else {
-        setOutput(decodeURIComponent(escape(atob(input))))
+        setOutput(new TextDecoder().decode(Uint8Array.from(atob(input), c => c.charCodeAt(0))))
         setError(null)
       }
     } catch (e) {
@@ -91,6 +91,7 @@ function Base64Codec() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder={mode === 'encode' ? '在此输入要编码的文本...' : '在此输入要解码的 Base64 字符串...'}
+            spellCheck={false}
           />
         </div>
 
