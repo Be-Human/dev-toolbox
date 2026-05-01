@@ -6,8 +6,8 @@ function JsonFormatter() {
   const [error, setError] = useState(null)
   const [expandedNodes, setExpandedNodes] = useState(new Set(['root']))
   const [formattedOutput, setFormattedOutput] = useState('')
+  const [copySuccess, setCopySuccess] = useState(false)
 
-  // 解析 JSON
   useEffect(() => {
     try {
       if (input.trim()) {
@@ -27,7 +27,6 @@ function JsonFormatter() {
     }
   }, [input])
 
-  // 处理节点展开/折叠
   const toggleNode = (path) => {
     setExpandedNodes(prev => {
       const newSet = new Set(prev)
@@ -40,7 +39,6 @@ function JsonFormatter() {
     })
   }
 
-  // 渲染 JSON 树形结构
   const renderJsonTree = (data, path = 'root', level = 0) => {
     if (data === null) {
       return <span className="json-null">null</span>
@@ -63,7 +61,7 @@ function JsonFormatter() {
     const isExpanded = expandedNodes.has(path)
 
     return (
-      <div className="json-container">
+      <div className="json-node">
         <div className="json-header" onClick={() => toggleNode(path)}>
           <span className="json-bracket">{isArray ? '[' : '{'}</span>
           <span className="json-count">
@@ -72,12 +70,12 @@ function JsonFormatter() {
           <span className="json-toggle">{isExpanded ? '▼' : '▶'}</span>
         </div>
         {isExpanded && (
-          <div className="json-items" style={{ marginLeft: `${level * 20}px` }}>
+          <div className="json-items">
             {items.map((item, index) => {
               const key = isArray ? index : item[0]
               const value = isArray ? item : item[1]
               const newPath = `${path}.${key}`
-              
+
               return (
                 <div key={key} className="json-item">
                   {!isArray && (
@@ -90,14 +88,13 @@ function JsonFormatter() {
             })}
           </div>
         )}
-        <div className="json-bracket" style={{ marginLeft: `${level * 20}px` }}>
+        <div className="json-bracket json-close">
           {isArray ? ']' : '}'}
         </div>
       </div>
     )
   }
 
-  // 压缩 JSON
   const compressJson = () => {
     if (parsedJson) {
       const compressed = JSON.stringify(parsedJson)
@@ -105,7 +102,6 @@ function JsonFormatter() {
     }
   }
 
-  // 展开 JSON
   const expandJson = () => {
     if (parsedJson) {
       const expanded = JSON.stringify(parsedJson, null, 2)
@@ -113,12 +109,12 @@ function JsonFormatter() {
     }
   }
 
-  // 复制到剪贴板
   const copyToClipboard = () => {
     if (formattedOutput) {
       navigator.clipboard.writeText(formattedOutput)
         .then(() => {
-          alert('已复制到剪贴板')
+          setCopySuccess(true)
+          setTimeout(() => setCopySuccess(false), 2000)
         })
         .catch(err => {
           console.error('复制失败:', err)
@@ -135,11 +131,11 @@ function JsonFormatter() {
         <button className="json-button" onClick={compressJson} disabled={!parsedJson}>
           一键压缩
         </button>
-        <button className="json-button" onClick={copyToClipboard} disabled={!formattedOutput}>
-          复制结果
+        <button className="json-button copy-button" onClick={copyToClipboard} disabled={!formattedOutput}>
+          {copySuccess ? '已复制' : '复制结果'}
         </button>
       </div>
-      
+
       <div className="json-content">
         <div className="json-input-container">
           <h3>输入 JSON</h3>
@@ -151,7 +147,7 @@ function JsonFormatter() {
           />
           {error && <div className="json-error">{error}</div>}
         </div>
-        
+
         <div className="json-output-container">
           <h3>格式化结果</h3>
           <div className="json-output">
