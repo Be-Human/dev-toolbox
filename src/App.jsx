@@ -4,6 +4,8 @@ import JsonFormatter from './components/JsonFormatter'
 import RegexTester from './components/RegexTester'
 import Base64Codec from './components/Base64Codec'
 import DateTimeTools from './components/DateTimeTools'
+import ColorConverter from './components/ColorConverter'
+import BaseConverter from './components/BaseConverter'
 
 function App() {
   const [activeTab, setActiveTab] = useState('json-formatter')
@@ -46,6 +48,18 @@ function App() {
         >
           Base64 编解码
         </button>
+        <button 
+          className={`tab-button ${activeTab === 'color' ? 'active' : ''}`}
+          onClick={() => setActiveTab('color')}
+        >
+          颜色转换
+        </button>
+        <button 
+          className={`tab-button ${activeTab === 'base-converter' ? 'active' : ''}`}
+          onClick={() => setActiveTab('base-converter')}
+        >
+          进制转换
+        </button>
       </nav>
       
       <main className="app-content">
@@ -53,6 +67,8 @@ function App() {
         {activeTab === 'datetime' && <DateTimeTools />}
         {activeTab === 'regex' && <RegexTester />}
         {activeTab === 'base64' && <Base64Codec />}
+        {activeTab === 'color' && <ColorConverter />}
+        {activeTab === 'base-converter' && <BaseConverter />}
       </main>
     </div>
   )
