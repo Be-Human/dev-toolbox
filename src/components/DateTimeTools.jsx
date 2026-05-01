@@ -118,6 +118,15 @@ function DateTimeTools() {
   const [unit, setUnit] = useState('days')
   const [opResult, setOpResult] = useState(null)
 
+  const [copyStates, setCopyStates] = useState({
+    currentSeconds: false,
+    currentMilliseconds: false,
+    timestampResult: false,
+    dateSeconds: false,
+    dateMilliseconds: false,
+    opResult: false
+  })
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTimestamp({
@@ -212,24 +221,21 @@ function DateTimeTools() {
       const diffTime = Math.abs(end - start)
       const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
       
-      let years = end.getFullYear() - start.getFullYear()
-      let months = end.getMonth() - start.getMonth()
-      let days = end.getDate() - start.getDate()
+      const earlierDate = start < end ? start : end
+      const laterDate = start < end ? end : start
+      
+      let years = laterDate.getFullYear() - earlierDate.getFullYear()
+      let months = laterDate.getMonth() - earlierDate.getMonth()
+      let days = laterDate.getDate() - earlierDate.getDate()
       
       if (days < 0) {
         months--
-        const lastMonth = new Date(end.getFullYear(), end.getMonth(), 0)
+        const lastMonth = new Date(laterDate.getFullYear(), laterDate.getMonth(), 0)
         days += lastMonth.getDate()
       }
       if (months < 0) {
         years--
         months += 12
-      }
-      
-      if (years < 0 || months < 0 || days < 0) {
-        years = Math.abs(years)
-        months = Math.abs(months)
-        days = Math.abs(days)
       }
 
       const diffMonths = years * 12 + months
@@ -300,11 +306,18 @@ function DateTimeTools() {
     }
   }, [opDate, operation, amount, unit, calcMode])
 
-  const handleCopy = (text) => {
+  const handleCopy = (text, stateKey) => {
     if (text) {
-      navigator.clipboard.writeText(String(text)).catch(err => {
-        console.error('复制失败:', err)
-      })
+      navigator.clipboard.writeText(String(text))
+        .then(() => {
+          setCopyStates(prev => ({ ...prev, [stateKey]: true }))
+          setTimeout(() => {
+            setCopyStates(prev => ({ ...prev, [stateKey]: false }))
+          }, 2000)
+        })
+        .catch(err => {
+          console.error('复制失败:', err)
+        })
     }
   }
 
@@ -321,9 +334,9 @@ function DateTimeTools() {
               <span className="timestamp-value">{currentTimestamp.seconds}</span>
               <button 
                 className="copy-small-button"
-                onClick={() => handleCopy(currentTimestamp.seconds)}
+                onClick={() => handleCopy(currentTimestamp.seconds, 'currentSeconds')}
               >
-                复制
+                {copyStates.currentSeconds ? '已复制' : '复制'}
               </button>
             </div>
             <div className="timestamp-item">
@@ -331,9 +344,9 @@ function DateTimeTools() {
               <span className="timestamp-value">{currentTimestamp.milliseconds}</span>
               <button 
                 className="copy-small-button"
-                onClick={() => handleCopy(currentTimestamp.milliseconds)}
+                onClick={() => handleCopy(currentTimestamp.milliseconds, 'currentMilliseconds')}
               >
-                复制
+                {copyStates.currentMilliseconds ? '已复制' : '复制'}
               </button>
             </div>
           </div>
@@ -381,9 +394,9 @@ function DateTimeTools() {
                 {timestampResult && (
                   <button 
                     className="copy-small-button"
-                    onClick={() => handleCopy(timestampResult)}
+                    onClick={() => handleCopy(timestampResult, 'timestampResult')}
                   >
-                    复制
+                    {copyStates.timestampResult ? '已复制' : '复制'}
                   </button>
                 )}
               </div>
@@ -424,9 +437,9 @@ function DateTimeTools() {
                   {dateResult.seconds && (
                     <button 
                       className="copy-small-button"
-                      onClick={() => handleCopy(dateResult.seconds)}
+                      onClick={() => handleCopy(dateResult.seconds, 'dateSeconds')}
                     >
-                      复制
+                      {copyStates.dateSeconds ? '已复制' : '复制'}
                     </button>
                   )}
                 </div>
@@ -436,9 +449,9 @@ function DateTimeTools() {
                   {dateResult.milliseconds && (
                     <button 
                       className="copy-small-button"
-                      onClick={() => handleCopy(dateResult.milliseconds)}
+                      onClick={() => handleCopy(dateResult.milliseconds, 'dateMilliseconds')}
                     >
-                      复制
+                      {copyStates.dateMilliseconds ? '已复制' : '复制'}
                     </button>
                   )}
                 </div>
@@ -589,9 +602,9 @@ function DateTimeTools() {
                   <span className="result-text-large">{opResult}</span>
                   <button 
                     className="copy-small-button"
-                    onClick={() => handleCopy(opResult)}
+                    onClick={() => handleCopy(opResult, 'opResult')}
                   >
-                    复制
+                    {copyStates.opResult ? '已复制' : '复制'}
                   </button>
                 </div>
               </div>
