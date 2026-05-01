@@ -550,6 +550,7 @@
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
   height: calc(100vh - 280px);
+  overflow: hidden;
 }
 
 .regex-test-container,
@@ -557,6 +558,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  overflow: hidden;
 }
 
 .regex-test-container h3,
@@ -643,6 +645,7 @@
   background-color: var(--light-card);
   border: 1px solid var(--light-border);
   font-weight: 500;
+  flex-shrink: 0;
 }
 
 .app.dark .regex-match-count {
@@ -655,7 +658,9 @@
   border-radius: 8px;
   background-color: var(--light-card);
   border: 1px solid var(--light-border);
-  overflow: auto;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
 }
 
 .app.dark .regex-match-details {
@@ -668,6 +673,7 @@
   font-weight: 600;
   margin-bottom: 0.75rem;
   color: var(--light-text);
+  flex-shrink: 0;
 }
 
 .app.dark .regex-match-details h4 {
@@ -768,10 +774,20 @@
     grid-template-columns: 1fr;
     height: auto;
     min-height: 800px;
+    overflow: visible;
+  }
+
+  .regex-test-container,
+  .regex-results-container {
+    overflow: visible;
   }
 
   .regex-test-input,
   .regex-highlight {
     min-height: 300px;
+  }
+
+  .regex-match-details {
+    max-height: 400px;
   }
 }
