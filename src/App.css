@@ -790,4 +790,251 @@
   .regex-match-details {
     max-height: 400px;
   }
+
+  .base64-content {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: 500px;
+  }
+
+  .base64-input,
+  .base64-output {
+    min-height: 250px;
+  }
+}
+
+.base64-codec {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.base64-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: var(--light-card);
+  border: 1px solid var(--light-border);
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.app.dark .base64-toolbar {
+  background-color: var(--dark-card);
+  border: 1px solid var(--dark-border);
+}
+
+.base64-mode-toggle {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.mode-button {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--light-border);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  background-color: var(--light-bg);
+  color: var(--light-text);
+}
+
+.app.dark .mode-button {
+  border: 1px solid var(--dark-border);
+  background-color: var(--dark-bg);
+  color: var(--dark-text);
+}
+
+.mode-button:hover:not(.active) {
+  background-color: var(--light-hover);
+}
+
+.app.dark .mode-button:hover:not(.active) {
+  background-color: var(--dark-hover);
+}
+
+.mode-button.active {
+  background-color: var(--light-button);
+  color: white;
+  border-color: var(--light-button);
+}
+
+.app.dark .mode-button.active {
+  background-color: var(--dark-button);
+  border-color: var(--dark-button);
+}
+
+.base64-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.base64-button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  background-color: var(--light-button);
+  color: white;
+}
+
+.app.dark .base64-button {
+  background-color: var(--dark-button);
+}
+
+.base64-button:hover:not(:disabled) {
+  background-color: var(--light-button-hover);
+}
+
+.app.dark .base64-button:hover:not(:disabled) {
+  background-color: var(--dark-button-hover);
+}
+
+.base64-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.base64-button.copy-button {
+  min-width: 100px;
+}
+
+.base64-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  height: calc(100vh - 300px);
+  min-height: 400px;
+}
+
+.base64-input-container,
+.base64-output-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.base64-input-container h3,
+.base64-output-container h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--light-text);
+}
+
+.app.dark .base64-input-container h3,
+.app.dark .base64-output-container h3 {
+  color: #e0e0e0;
+}
+
+.base64-input {
+  flex: 1;
+  padding: 1rem;
+  border: 1px solid var(--light-border);
+  border-radius: 8px;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  resize: none;
+  background-color: var(--light-bg);
+  color: var(--light-text);
+}
+
+.app.dark .base64-input {
+  border: 1px solid var(--dark-border);
+  background-color: var(--dark-bg);
+  color: var(--dark-text);
+}
+
+.base64-output {
+  flex: 1;
+  padding: 1rem;
+  border: 1px solid var(--light-border);
+  border-radius: 8px;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  overflow: auto;
+  background-color: var(--light-bg);
+  color: var(--light-text);
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.app.dark .base64-output {
+  border: 1px solid var(--dark-border);
+  background-color: var(--dark-bg);
+  color: var(--dark-text);
+}
+
+.base64-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--light-text);
+  opacity: 0.5;
+}
+
+.app.dark .base64-placeholder {
+  color: var(--dark-text);
+}
+
+.base64-error {
+  color: var(--light-error);
+  font-size: 0.9rem;
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  background-color: rgba(255, 77, 79, 0.1);
+  border: 1px solid rgba(255, 77, 79, 0.3);
+}
+
+.app.dark .base64-error {
+  color: var(--dark-error);
+  background-color: rgba(244, 135, 113, 0.1);
+  border: 1px solid rgba(244, 135, 113, 0.3);
+}
+
+.base64-info {
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: var(--light-card);
+  border: 1px solid var(--light-border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.app.dark .base64-info {
+  background-color: var(--dark-card);
+  border: 1px solid var(--dark-border);
+}
+
+.info-item {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.info-label {
+  font-weight: 500;
+  color: var(--light-text);
+}
+
+.app.dark .info-label {
+  color: #e0e0e0;
+}
+
+.info-value {
+  color: var(--light-text);
+  opacity: 0.8;
+}
+
+.app.dark .info-value {
+  color: var(--dark-text);
+  opacity: 0.8;
 }
