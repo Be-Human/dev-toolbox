@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import JsonFormatter from './components/JsonFormatter'
 import RegexTester from './components/RegexTester'
+import Base64Codec from './components/Base64Codec'
 
 function App() {
   const [activeTab, setActiveTab] = useState('json-formatter')
@@ -50,7 +51,7 @@ function App() {
         {activeTab === 'json-formatter' && <JsonFormatter />}
         {activeTab === 'todo' && <div className="placeholder">TODO 列表工具开发中...</div>}
         {activeTab === 'regex' && <RegexTester />}
-        {activeTab === 'base64' && <div className="placeholder">Base64 编解码工具开发中...</div>}
+        {activeTab === 'base64' && <Base64Codec />}
       </main>
     </div>
   )
