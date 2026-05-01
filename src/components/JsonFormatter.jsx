@@ -39,7 +39,7 @@ function JsonFormatter() {
     })
   }
 
-  const renderJsonTree = (data, path = 'root', level = 0) => {
+  const renderJsonTree = (data, path = 'root', isLast = false) => {
     if (data === null) {
       return <span className="json-null">null</span>
     }
@@ -57,39 +57,55 @@ function JsonFormatter() {
     }
 
     const isArray = Array.isArray(data)
-    const items = isArray ? data : Object.entries(data)
+    const entries = isArray
+      ? data.map((v, i) => ({ key: i, value: v }))
+      : Object.entries(data).map(([k, v]) => ({ key: k, value: v }))
+
     const isExpanded = expandedNodes.has(path)
+    const openBracket = isArray ? '[' : '{'
+    const closeBracket = isArray ? ']' : '}'
+
+    if (entries.length === 0) {
+      return (
+        <span className="json-empty">
+          {openBracket}
+          {closeBracket}
+        </span>
+      )
+    }
 
     return (
       <div className="json-node">
-        <div className="json-header" onClick={() => toggleNode(path)}>
-          <span className="json-bracket">{isArray ? '[' : '{'}</span>
+        <div className="json-row" onClick={() => toggleNode(path)}>
+          <span className="json-bracket">{openBracket}</span>
           <span className="json-count">
             {isArray ? `Array(${data.length})` : `Object(${Object.keys(data).length})`}
           </span>
           <span className="json-toggle">{isExpanded ? '▼' : '▶'}</span>
         </div>
         {isExpanded && (
-          <div className="json-items">
-            {items.map((item, index) => {
-              const key = isArray ? index : item[0]
-              const value = isArray ? item : item[1]
+          <div className="json-children">
+            {entries.map(({ key, value }, index) => {
+              const isLastEntry = index === entries.length - 1
               const newPath = `${path}.${key}`
-
               return (
-                <div key={key} className="json-item">
+                <div key={key} className="json-entry">
                   {!isArray && (
                     <span className="json-key">"{key}": </span>
                   )}
-                  {renderJsonTree(value, newPath, level + 1)}
-                  {index < items.length - 1 && <span className="json-comma">,</span>}
+                  {typeof value === 'object' && value !== null
+                    ? renderJsonTree(value, newPath, isLastEntry)
+                    : renderJsonTree(value, newPath, isLastEntry)
+                  }
+                  {!isLastEntry && <span className="json-comma">,</span>}
                 </div>
               )
             })}
           </div>
         )}
-        <div className="json-bracket json-close">
-          {isArray ? ']' : '}'}
+        <div className="json-row">
+          <span className="json-bracket">{closeBracket}</span>
+          {!isLast && <span className="json-comma">,</span>}
         </div>
       </div>
     )
