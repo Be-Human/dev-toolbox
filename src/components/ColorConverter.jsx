@@ -254,7 +254,7 @@ function ColorConverter() {
             <h3>HEX</h3>
             <button 
               className="copy-small-button"
-              onClick={() => handleCopy(hex, 'hex')}
+              onClick={() => handleCopy(hex ? (hex.startsWith('#') ? hex : '#' + hex) : '', 'hex')}
               disabled={!hex}
             >
               {copySuccess.hex ? '已复制' : '复制'}
@@ -379,11 +379,11 @@ function ColorConverter() {
         </div>
       </div>
 
-      {error && (
+      <div className={`color-error-wrapper ${error ? 'has-error' : ''}`}>
         <div className="color-error">
-          {error}
+          {error || ''}
         </div>
-      )}
+      </div>
 
       <div className="color-info">
         <div className="info-item">
