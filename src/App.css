@@ -1816,7 +1816,7 @@
 }
 
 .color-error-wrapper {
-  min-height: 42px;
+  height: 42px;
   display: flex;
   align-items: center;
   transition: all 0.2s ease;
@@ -1824,6 +1824,7 @@
 
 .color-error {
   width: 100%;
+  height: 100%;
   color: var(--light-error);
   font-size: 0.9rem;
   padding: 0.75rem 1rem;
@@ -1834,6 +1835,10 @@
   visibility: hidden;
   transform: translateY(-5px);
   transition: all 0.2s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
 }
 
 .color-error-wrapper.has-error .color-error {
@@ -2062,7 +2067,7 @@
 }
 
 .base-error-wrapper {
-  min-height: 42px;
+  height: 42px;
   display: flex;
   align-items: center;
   transition: all 0.2s ease;
@@ -2070,6 +2075,7 @@
 
 .base-error {
   width: 100%;
+  height: 100%;
   color: var(--light-error);
   font-size: 0.9rem;
   padding: 0.75rem 1rem;
@@ -2080,6 +2086,10 @@
   visibility: hidden;
   transform: translateY(-5px);
   transition: all 0.2s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
 }
 
 .base-error-wrapper.has-error .base-error {
